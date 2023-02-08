@@ -13,14 +13,21 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
+    /*
+    @Bean memberService -> new MemoryMemberRepository()
+    @Bean orderService -> new MemoryMemberRepository()
+    결과적으로 각각 다른 2개의 MemoryMemberRepository 가 생성되면서 싱글톤이 깨지는 것 처럼 보인다. 과연 싱글톤이 꺠질까?
+    */
 
     @Bean
-    public MemberService memberService(){
+    public MemberService memberService() {
+        System.out.println("call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
 
     @Bean
     public static MemoryMemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
@@ -30,6 +37,7 @@ public class AppConfig {
      */
     @Bean
     public OrderService orderService(){
+        System.out.println("call  AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
